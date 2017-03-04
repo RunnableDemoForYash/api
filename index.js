@@ -11,7 +11,7 @@ const port = 3000
 const mongoHost = process.env.MONGODB_HOST || 'localhost:27017'
 
 const appInfo = require('./package.json')
-const launched = new Date
+const launched = new Date()
 
 mongoose.connect(`mongodb://${mongoHost}/todo`)
 mongoose.connection.on('error', () => {
