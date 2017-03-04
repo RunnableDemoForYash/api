@@ -10,6 +10,9 @@ const host = process.env.RUNNABLE_CONTAINER_URL || 'localhost'
 const port = 3000
 const mongoHost = process.env.MONGODB_HOST || 'localhost:27017'
 
+const appInfo = require('./package.json')
+const launched = new Date
+
 mongoose.connect(`mongodb://${mongoHost}/todo`)
 mongoose.connection.on('error', () => {
   console.log('ERROR: Unable to connect to MongoDB.')
@@ -39,7 +42,12 @@ app.use(cors())
 
 // Routes
 app.get('/', function (req, res) {
-  res.send('Hello World')
+  res.send({
+    name: appInfo.name,
+    version: appInfo.version,
+    author: appInfo.author,
+    deployed: launched.toLocaleString()
+  })
 })
 app.get('/todos', todos.all)
 app.get('/todos/:id', todos.one)
